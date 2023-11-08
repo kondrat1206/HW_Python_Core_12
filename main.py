@@ -13,7 +13,7 @@ change [name] [old_phone] [new_phone]: Change phone num for contact in address b
 phone [name]: Show phone list of contact
 show all: Show address book
 pages [size]: Show address book in pages, size is number records per page
-search [string] Matching search for name or phone in address book
+search [string]: Matching search for name or phone in address book
 good bye, close, exit: print \"Good bye!\" and exit
 help: Show this help
 """
@@ -66,10 +66,9 @@ def input_error(func):
             else:
                 result = f"""Command \"{func.__name__}\" reqired 1 argument: search string. \nFor example: {func.__name__} [string]\n\nTRY AGAIN!!!"""
 
-
         return result
     return inner
-    
+
 
 @input_error
 def add(param_list):
@@ -112,8 +111,9 @@ def add(param_list):
             result = str(e)
             return result
 
-    if phone.value != None:    
-        result = address_book.add_record(Record(name, phone=phone, birthday=birthday)) 
+    if phone.value != None:
+        result = address_book.add_record(
+            Record(name, phone=phone, birthday=birthday))
     else:
         result = address_book.add_record(Record(name, birthday=birthday))
 
@@ -137,7 +137,7 @@ def add_birthday(param_list):
         except ValueError as e:
             result = str(e)
             return result
-        
+
         result = address_book[param_list[0]].add_birthday(birthday)
     else:
         result = f"Contact \"{param_list[0]}\" does not exist in the address book\n"
@@ -158,10 +158,11 @@ def change(param_list):
         return result
 
     if address_book.is_contact_exist(record):
-        result = address_book[param_list[0]].change_phone(old_phone_obj, new_phone_obj)
+        result = address_book[param_list[0]].change_phone(
+            old_phone_obj, new_phone_obj)
     else:
         result = f"Contact \"{param_list[0]}\" does not exist in the address book\n"
-    
+
     return result
 
 
@@ -190,7 +191,7 @@ def to_birthday(param_list):
         result = address_book[param_list[0]].days_to_birthday()
     else:
         result = f"Contact \"{param_list[0]}\" does not exist in the address book\n"
-    
+
     return result
 
 
@@ -248,7 +249,7 @@ def search(param_list):
 
 
 def helper(param_list):
-    
+
     return help
 
 
@@ -266,24 +267,24 @@ def load_data():
 
 
 commands = {
-        "good bye": exit,
-        "close": exit,
-        "exit": exit,
-        "show all": show_all,
-        "show_all": show_all,
-        "hello": hello,
-        "add birthday": add_birthday,
-        "add_birthday": add_birthday,
-        "add": add,
-        "change": change,
-        "phone": phone,
-        "to birthday": to_birthday,
-        "to_birthday": to_birthday,
-        "help": helper,
-        "helper": helper,
-        "pages": pages,
-        "search": search
-    }
+    "good bye": exit,
+    "close": exit,
+    "exit": exit,
+    "show all": show_all,
+    "show_all": show_all,
+    "hello": hello,
+    "add birthday": add_birthday,
+    "add_birthday": add_birthday,
+    "add": add,
+    "change": change,
+    "phone": phone,
+    "to birthday": to_birthday,
+    "to_birthday": to_birthday,
+    "help": helper,
+    "helper": helper,
+    "pages": pages,
+    "search": search
+}
 
 
 def parser(string: str):
