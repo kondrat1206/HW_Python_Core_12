@@ -1,6 +1,8 @@
+from prompt_toolkit.completion import Completer, Completion
 from collections import UserDict
 from datetime import datetime, date
 import re
+
 
 
 class AddressBook(UserDict):
@@ -240,3 +242,40 @@ class Birthday(Field):
             result = f"""Entered value \"{value}\" is not correct.\nSetted date can not be at the future\n\nTRY AGAIN!!!"""
         
         return result
+    
+
+class MyCompleter(Completer):
+    
+    def get_completions(self, document, complete_event):
+
+        commands_list = ['good bye', 'close', 'exit', 'show all', 'hello', 'add birthday', 'add', 'change', 'phone', 'to birthday', 'help', 'pages', 'search']
+        users = [AddressBook.keys]
+        text = document.text
+        completions = []
+        for command in commands_list:
+            if text in command:  
+                completions = [c for c in commands_list if text in c]
+                
+            # elif text.startswith('add birthday'):
+            #     completions = [text.rsplit(' ', 1)[0]+' '+u for u in options if u.startswith(text.split()[-1])]
+                
+            # elif text.startswith('add'):
+            #     completions = [text.rsplit(' ', 1)[0]+' '+p for p in phones if p.startswith(text.split()[-1])]
+                
+            # elif text.startswith('change'):
+            #     completions = [text.rsplit(' ', 1)[0]+' '+b for b in birthdays if b.startswith(text.split()[-1])]
+
+            # elif text.startswith('phone'):
+            #     completions = [text.rsplit(' ', 1)[0]+' '+b for b in birthdays if b.startswith(text.split()[-1])]
+
+            # elif text.startswith('to birthday'):
+            #     completions = [text.rsplit(' ', 1)[0]+' '+b for b in users]
+
+            elif text.startswith('pages'):
+                completions = [text.rsplit(' ', 1)[0]+' '+'DIGIT']
+
+            elif text.startswith('search'):
+                completions = [text.rsplit(' ', 1)[0]+' '+'STRING']
+                
+        for completion in completions:
+            yield Completion(completion, start_position=-len(text))

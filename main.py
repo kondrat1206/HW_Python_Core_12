@@ -1,4 +1,5 @@
-from classes import AddressBook, Record, Name, Phone, Birthday
+from prompt_toolkit import prompt
+from classes import AddressBook, Record, Name, Phone, Birthday, MyCompleter
 import functools
 import pickle
 import os
@@ -309,8 +310,17 @@ def handler(command):
 
 def main():
 
+    # comm_completer = list(commands.keys())
+    # filtered_commands = [key for key in list(commands.keys()) if "_" not in key and key != "helper"]
+
+    # result_dict = {key: None for key in filtered_commands}
+
+    # completer = WordCompleter(filtered_commands)
+    # print(filtered_commands)
     while True:
-        source_command = input("Enter command: ")
+        # source_command = input("Enter command: ")
+        #print(address_book.data)
+        source_command = prompt("Enter command: ", completer=MyCompleter())
         command, param_list = parser(source_command)
         if not command:
             print(f"YOU ENTERED A WRONG COMMAND!!!\n{help}\nTRY AGAIN!!!")
